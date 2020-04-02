@@ -114,8 +114,9 @@ Template.messageBox.onRendered(function() {
 	});
 	this.autorun(() => {
 		const { rid, subscription } = Template.currentData();
+		
 		const room = Session.get(`roomData${ rid }`);
-
+		
 		if (!room) {
 			return this.state.set({
 				room: false,
@@ -389,7 +390,7 @@ Template.messageBox.events({
 				name: `Clipboard - ${ moment().format(settings.get('Message_TimeAndDateFormat')) }`,
 			}))
 			.filter(({ file }) => file !== null);
-
+			
 		if (files.length) {
 			event.preventDefault();
 			fileUpload(files, input, { rid, tmid });

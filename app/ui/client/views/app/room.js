@@ -38,7 +38,6 @@ import { ChatMessages } from '../../lib/chatMessages';
 import { fileUpload } from '../../lib/fileUpload';
 import { isURL } from '../../../../utils/lib/isURL';
 import { mime } from '../../../../utils/lib/mimeTypes';
-
 export const chatMessages = {};
 
 const userCanDrop = (_id) => !roomTypes.readOnly(_id, Users.findOne({ _id: Meteor.userId() }, { fields: { username: 1 } }));
@@ -119,7 +118,6 @@ const mountPopover = (e, i, outerContext) => {
 
 		menuItems = menuItems.concat(messageItems);
 	}
-
 	const [items, deleteItem] = menuItems.reduce((result, value) => { result[value.id === 'delete-message' ? 1 : 0].push(value); return result; }, [[], []]);
 	const groups = [{ items }];
 
@@ -301,6 +299,7 @@ Template.room.helpers({
 	messagesHistory() {
 		const { rid } = Template.instance();
 		const room = Rooms.findOne(rid, { fields: { sysMes: 1 } });
+		
 		const hideSettings = settings.collection.findOne('Hide_System_Messages') || {};
 		const settingValues = Array.isArray(room.sysMes) ? room.sysMes : hideSettings.value || [];
 		const hideMessagesOfType = new Set(settingValues.reduce((array, value) => [...array, ...value === 'mute_unmute' ? ['user-muted', 'user-unmuted'] : [value]], []));
@@ -322,12 +321,14 @@ Template.room.helpers({
 				ts: 1,
 			},
 		};
-		ChatMessage.update({rid:'12121212',msg:'tthis is updated message'}, options)
-		console.log('query',query);
-		console.log('optios',options)
-	//	console.log('=======',ChatMessage.collection._docs._map);
+
+		// Getting Older chats here
+	
 		return ChatMessage.find(query, options);
+	
+		
 	},
+	
 
 	hasMore() {
 		return RoomHistoryManager.hasMore(this._id);
@@ -554,6 +555,9 @@ let touchMoved = false;
 let lastTouchX = null;
 let lastTouchY = null;
 let lastScrollTop;
+let finalHistory = [];
+
+
 
 export const dropzoneEvents = {
 	'dragenter .dropzone'(e) {
@@ -1036,6 +1040,7 @@ Template.room.onCreated(function() {
 	// this.typing = new msgTyping this.data._id
 	const rid = this.data._id;
 
+
 	this.onFile = (filesToUpload) => {
 		fileUpload(filesToUpload, chatMessages[rid].input, { rid });
 	};
@@ -1145,7 +1150,9 @@ Template.room.onCreated(function() {
 			if (!role.u || !role.u._id) {
 				return;
 			}
+		
 			ChatMessage.update({ rid: this.data._id, 'u._id': role.u._id }, { $addToSet: { roles: role._id } }, { multi: true });
+		
 		}, // Update message to re-render DOM
 		changed: (role) => {
 			if (!role.u || !role.u._id) {
@@ -1191,7 +1198,6 @@ Template.room.onRendered(function() {
 	}
 	chatMessages[rid].initializeWrapper(this.find('.wrapper'));
 	chatMessages[rid].initializeInput(this.find('.js-input-message'), { rid });
-console.log("chatmsg --",chatMessages);
 	const wrapper = this.find('.wrapper');
 	const wrapperUl = this.find('.wrapper > ul');
 	const newMessage = this.find('.new-message');
@@ -1329,7 +1335,7 @@ console.log("chatmsg --",chatMessages);
 		}
 		readMessage.refreshUnreadMark(rid);
 	});
-
+	
 	readMessage.on(template.data._id, () => this.unreadCount.set(0));
 
 	wrapper.addEventListener('scroll', updateUnreadCount);

@@ -8,7 +8,7 @@ export const APIClient = {
 		return APIClient._jqueryCall('DELETE', endpoint, params);
 	},
 
-	get(endpoint, params) { console.log('endpoint2:'+endpoint+' para2 : '+params);
+	get(endpoint, params) { 
 		return APIClient._jqueryCall('GET', endpoint, params);
 	},
 
@@ -123,7 +123,6 @@ export const APIClient = {
 		},
 
 		get(endpoint, params) {
-			console.log("endpoint:"+endpoint+"para"+params);
 			return APIClient.get(`v1/${ endpoint }`, params);
 		},
 

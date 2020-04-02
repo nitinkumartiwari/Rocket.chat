@@ -21,7 +21,6 @@ Template.allChatHistory.helpers({
 	
 	isAllChat:function(){
         // will return is have to load all chat 
-        console.log(Template.instance().isAllChat.get());
 		return Template.instance().isAllChat.get();
 	},
 	isChatClicked:function(){
@@ -31,7 +30,7 @@ Template.allChatHistory.helpers({
 	isfound:function() {
 		// will return if find any search result
 		var isfound= Session.get('found');
-		console.log(isfound)
+	
 		return isfound;
 	},
 	isLoading() {
@@ -39,7 +38,7 @@ Template.allChatHistory.helpers({
 	},
 	searchResults(){
 		// will return search result
-		console.log(	Template.instance().searchResult.get())
+	
 		return 	Template.instance().searchResult.get();
 	},
 	previousChats() {
@@ -54,10 +53,6 @@ Template.allChatHistory.helpers({
 	historyResult(){
 		// will return all the messages in history room
 		return Template.instance().historyResu.get().reverse();
-	},
-	time(){
-		return 'hyyy';
-		console.log(datetime);
 	},
 	title() {
 		
@@ -93,7 +88,7 @@ Template.allChatHistory.onCreated(function() {
 		if (!this.visitorId.get() || !currentData || !currentData.rid) {
 			return;
 		}
-		console.log('currentData',currentData);
+
 		const offset = this.offset.get();
 	
 		this.isLoading.set(true);
@@ -120,11 +115,10 @@ Template.allChatHistory.onCreated(function() {
 				
 				
 			}
-		},5000)
+		},4000)
 			
 		}
-		console.log('allchathistory',allHistoryChat.length+'count',count.length);
-		console.log("search result array is",allHistoryChat);
+	
 	});	
 });
 
@@ -154,7 +148,7 @@ Template.allChatHistory.events({
 				if(allHistoryChat[i].msg == text){ // check search input matches with any msg
 					Session.set('found',true);
 					searchResults.push(allHistoryChat[i]); 
-					console.log(allHistoryChat[i]);
+				
 				}
 				
 			}
@@ -163,23 +157,16 @@ Template.allChatHistory.events({
 				Session.set('found',true);
 			
 			}
-		console.log(	Template.instance().searchResult.get());
-		console.log(event.target.value);	
+			
 	}},
 	'click .list-chat': async function(event,template){
-		// console.log(TabBar.getButton('visitor-history'));
 		template.isAllChat.set(false);
 		template.isChatClicked.set(true);
 		let id = event.currentTarget.id
-		console.log(event);
 		let token = event.currentTarget.attributes.aria.value;
-		console.log('aria-lable'+token);
-				//	let historyArray = template.history.curValue;
-	//	console.log(historyArray);
 		  historyResult  =  await APIClient.v1.get(`livechat/messages.history/${ id }?token=${token}`);
 		  template.historyResu.set(historyResult.messages); 
-		// historyResult = JSON.stringify(historyResult.messages);
-		   console.log('historyResult:'+JSON.stringify(historyResult.messages));
+		
 	
 	}
 
