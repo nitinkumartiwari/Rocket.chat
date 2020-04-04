@@ -2,10 +2,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
 import moment from 'moment';
 import _ from 'underscore';
-
 import './visitorHistory.html';
 import './allChatHistory.html';
-import { APIClient } from '../../../../../utils/client';
+import { APIClient, t } from '../../../../../utils/client';
 import { AccountBox, TabBar, MessageTypes } from '../../../../../ui-utils';
 import {Mongo ,MongoInternals} from 'meteor/mongo';
 import { Tracker } from 'meteor/tracker';
@@ -41,17 +40,32 @@ Template.allChatHistory.helpers({
 	
 		return 	Template.instance().searchResult.get();
 	},
+	
 	previousChats() {
 		// will return pervious chats list
-		return Template.instance().history.get();
+		let history = Template.instance().history.get();
+		let newHisTory = []
+		for(i=1; i<history.length; i++){
+			var d = Date.parse(history[i].ts);
+			var D = new Date();
+			D.setTime(d);
+			var newTs = D.toTimeString();
+			var time = getTime(newTs);
+			history[i].time = time;
+			history[i].count = history[i].msgs-3;
+			newHisTory.push(history[i]);
+		}
+		Template.instance().modifiedHistory.set(newHisTory);
+		return Template.instance().modifiedHistory.get();
 	},
 	len(){
 		// will return length of total messages in room
 		len = Template.instance().historyResu.get();
-		return len = len.length-3;
+		return len = len.length-2;
 	},
 	historyResult(){
 		// will return all the messages in history room
+		
 		return Template.instance().historyResu.get().reverse();
 	},
 	title() {
@@ -61,7 +75,6 @@ Template.allChatHistory.helpers({
 		if (this.label) {
 			title += ` - ${ this.label }`;
 		}
-		
 		return title;
 	},
 });
@@ -70,7 +83,7 @@ Template.allChatHistory.onCreated(function() {
 	const currentData = Template.currentData();
 	this.visitorId = new ReactiveVar();
 	this.isLoading = new ReactiveVar(false);
-	
+	this.modifiedHistory = new ReactiveVar([])
 	this.history = new ReactiveVar([]);
 	this.historyResu = new ReactiveVar([]);
 	this.offset = new ReactiveVar(0);
@@ -85,6 +98,7 @@ Template.allChatHistory.onCreated(function() {
 	});
 
 	this.autorun(async () => {
+		
 		if (!this.visitorId.get() || !currentData || !currentData.rid) {
 			return;
 		}
@@ -115,7 +129,7 @@ Template.allChatHistory.onCreated(function() {
 				
 				
 			}
-		},4000)
+		},1000)
 			
 		}
 	
@@ -160,15 +174,78 @@ Template.allChatHistory.events({
 			
 	}},
 	'click .list-chat': async function(event,template){
+		event.preventDefault();
 		template.isAllChat.set(false);
 		template.isChatClicked.set(true);
 		let id = event.currentTarget.id
 		let token = event.currentTarget.attributes.aria.value;
-		  historyResult  =  await APIClient.v1.get(`livechat/messages.history/${ id }?token=${token}`);
-		  template.historyResu.set(historyResult.messages); 
+		  historyResult  =  await APIClient.v1.get(`livechat/messages.history/${ id }?token=${token}`); 
+		 	// will return pervious chats list
+		let history = historyResult.messages;
+		let newHisTory = []
+		for(i=1; i<history.length; i++){
+			var d = Date.parse(history[i].ts);
+			var D = new Date();
+			D.setTime(d);
+			var newTs = D.toTimeString();
+			var time = getTime(newTs);
+			history[i].time = time;
+			newHisTory.push(history[i]);
+		}
+		var header = document.getElementsByClassName('contextual-bar__header-title');
+		var day,agentName;
+
+		if(newHisTory.length !== 0){
+			var len = newHisTory.length-1;
+			agentName = newHisTory[len].u.username;
+		day = getDay(newHisTory[len]);
+		}
+		if(header[0]){
+			header[0].innerText= `${agentName}, closed at ${day}`
+			header[0].className = 'Contextualheading';
+		}
+	
+		  template.historyResu.set(newHisTory); 
 		
 	
 	}
 
 });
 
+Template.allChatHistory.onDestroyed(function(){
+	var header = document.getElementsByClassName('Contextualheading');
+	if(header[0]){
+		header[0].innerText = ''
+		header[0].className = 'contextual-bar__header-title';
+	}
+})
+function getTime(newTs){
+	var hr = newTs.slice(0,2);
+	var min = newTs.slice(3,5);
+	if(hr > 12 && hr < 24){
+		hr = hr-12;
+		return time = `0${hr}:${min} PM`;
+	}else if(hr == 24){
+		hr = 00;
+		return time = `${hr}:${min} AM`;
+	}else if(hr < 12 ){
+		return time = `${hr}:${min} AM`;
+	}else if(hr == 12){
+		return time = `${hr}:${min} PM`;
+	}
+}
+function getDay(obj){
+	var d = Date.parse(obj.ts);
+	var D = new Date();
+	D.setTime(d);
+	var day = D.getDay();
+	switch(day){
+		case 1 : return 'Monday';
+		case 2 : return 'Tuesday';
+		case 3 : return 'Wednesday';
+		case 4 : return 'Thursday';
+		case 5 : return 'Friday';
+		case 6 : return 'Saturday';
+		case 7 : return 'Sunday';
+	}
+}

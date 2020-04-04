@@ -1,10 +1,12 @@
 <template name='allChatHistory'>
 	<div class="content">
 		<div class="list-view">
+			<div>
 			<div class="active-pink-4 mb-4 inner-addon right-addon">
 				<i class="glyphicon glyphicon-search icon-search"></i>
 				<input type="text" id="searchInput" class="" placeholder="Search" aria-label="Search">
-            </div>
+			</div>
+		</div>
             {{#if isAllChat}}
 			<div class="vistior-history-block">
         
@@ -22,11 +24,11 @@
 									{{#if open}}
 										<p class='open'>Open</p>
 										{{else}}
-									<p>Close at time({{closedAt}})</p>
+									<p>Close at time {{time}}</p>
 									{{/if}}
 								</div>
 								<div class="total-messages">
-									<p>{{msgs}} messages</p>
+									<p>{{count}} messages</p>
 								</div>
 								<div class="agent-comment">
 									<p class="comment-heading">Agent comment:</p>
@@ -61,7 +63,7 @@
 							<div class="history-detail-main">
 								<div class="detail-main-upper">
 									<h1>{{u.name}}</h1>
-									<p>{{ts}}</p>
+									<p>{{time}}</p>
 								</div>
 								<div class="detail-main-lower">
 									<p>{{msg}}</p>
