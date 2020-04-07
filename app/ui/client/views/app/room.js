@@ -325,7 +325,8 @@ Template.room.helpers({
 		const hideMessagesOfType = new Set(settingValues.reduce((array, value) => [...array, ...value === 'mute_unmute' ? ['user-muted', 'user-unmuted'] : [value]], []));
 		const modes = ['', 'cozy', 'compact'];
 		const viewMode = getUserPreference(Meteor.userId(), 'messageViewMode');
-	
+		const promise = getHistory();
+		
 		const query = {
 			rid,
 			_hidden: { $ne: true },
@@ -342,10 +343,7 @@ Template.room.helpers({
 			},
 		};
 
-		
 		return ChatMessage.find(query, options);
-	
-		
 	},
 	
 
@@ -384,6 +382,7 @@ Template.room.helpers({
 	},
 
 	chatNowLink() {
+		
 		return roomTypes.getRouteLink('d', { name: this.username });
 	},
 
@@ -392,6 +391,7 @@ Template.room.helpers({
 	},
 
 	messageboxData() {
+		
 		const { sendToBottomIfNecessaryDebounced, subscription } = Template.instance();
 		const { _id: rid } = this;
 		const isEmbedded = Layout.isEmbedded();
@@ -447,7 +447,6 @@ Template.room.helpers({
 		if (room) {
 			data.since = room.unreadSince.get();
 		}
-
 		return data;
 	},
 
@@ -478,7 +477,6 @@ Template.room.helpers({
 				clearUserDetail: Template.instance().clearUserDetail,
 			},
 		};
-
 		return flexData;
 	},
 
@@ -488,6 +486,7 @@ Template.room.helpers({
 
 	showToggleFavorite() {
 		const { state } = Template.instace();
+
 		return state.get('subscribed') && settings.get('Favorite_Rooms');
 	},
 
@@ -574,7 +573,6 @@ let touchMoved = false;
 let lastTouchX = null;
 let lastTouchY = null;
 let lastScrollTop;
-
 
 
 export const dropzoneEvents = {
@@ -1120,7 +1118,10 @@ Template.room.onCreated(function() {
 			const minTs = _.min([message1.ts, message2.ts]);
 			const maxTs = _.max([message1.ts, message2.ts]);
 
+			
 			this.selectedRange = _.pluck(ChatMessage.find({ rid: message1.rid, ts: { $gte: minTs, $lte: maxTs } }).fetch(), '_id');
+			
+
 		}
 	};
 
@@ -1205,6 +1206,7 @@ Template.room.onDestroyed(function() {
 	this.observer && this.observer.disconnect();
 
 	const chatMessage = chatMessages[this.data._id];
+	
 	chatMessage.onDestroyed && chatMessage.onDestroyed(this.data._id);
 });
 
