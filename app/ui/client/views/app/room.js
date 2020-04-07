@@ -342,7 +342,7 @@ Template.room.helpers({
 				ts: 1,
 			},
 		};
-
+		
 		return ChatMessage.find(query, options);
 	},
 	

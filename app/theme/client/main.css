@@ -60,112 +60,139 @@
 @import 'imports/general/rtl.css';
 
 /* Visitor History CSS */
-.inner-addon{
+.inner-addon {
 	position: relative;
 	left: 24px;
 	width: 345px;
-	height: 40px;
-	background: #ffffff;
-	border: 2px solid #CBCED1;
+    height: 40px;
+    border: 2px solid #cbced1;
+    background: #ffffff;
+    
 	box-sizing: border-box;
 	border-radius: 2px;
 }
-.inner-addon .glyphicon{
+
+.inner-addon .glyphicon {
 	position: absolute;
-	bottom:0.5%;
-	color: #2F343D;
+	bottom: 0.5%;
+    color: #2F343D;
+    
 	padding: 10px;
-	pointer-events: none;
+    
+    pointer-events: none;
 	
 }
-.searchresults{
-    margin-top:7%;
+
+.searchresults {
+    margin-top: 7%;
 }
-.search-li{
+
+.search-li {
     display: block;
     padding-bottom: 3%;
     position: relative;
+
     height: 65px;
-    left:24px;
+    left: 24px;
+    
     background-color: #ffffff;
 }
-.closed-div{
+
+.closed-div {
     position: relative;
-    top:20px;
+        top: 20px;
 }
-.closed-div-p{
-    background: #F5455C;
+
+.closed-div-p {
+        background: #f5455c;
     border-radius: 2px;
     width: 100%;
     text-align: center;
     line-height: 0.15em;
     font-size: 10px;
-    margin:10px 0 15px;
+        
+        margin: 10px 0 15px;
 }
-.closed-div-p span{
-    width: 101px;
-    height:12px;
-    right:138px;
-    top:3px;
+
+.closed-div-p span {
+        width: 101px;
+    height: 12px;
+        
+        right: 138px;
+    top: 3px;
     font-family: Inter;
     font-style: normal;
     font-weight: 600;
     text-align: center;
-    color:#f5455c;
+        
+        color: #f5455c;
     background: white;
     padding-left: 8px;
     padding-right: 8px;
 }
-.closed-h1 h1{
-    color:#6c727a !important;
-    line-height: 20px !important;
-    font-size: 14px !important;
+
+.closed-h1 h1 {
+        color: #6c727a !important;
+        
+        font-size: 14px !important;
+        
+        line-height: 20px !important;
+        
     font-weight: 600px !important;
     font-style: italic !important;
     text-transform: none !important;
 }
-.closed-p p{
-    color: #9ea2a8 !important;
+
+.closed-p p {
+        color: #9ea2a8 !important;
     font-style: italic !important;
     font-weight: 500 !important;
-    top:25px !important;
+    top: 25px !important;
 }
-.belldiv{
+
+.belldiv {
     position: absolute;
     width: 36px;
     height: 36px;
     top: 12px;
-    background: #E4E7EA;
+    background: #e4e7ea;
 }
+
 .belldiv i {
     position: relative;
     left: 22.31%;
-    top:15.79%;
+    top: 15.79%;
 }
-.history-main{
+
+.history-main {
     display: flex;
     position: relative;
-    width: 345px;
+        
+        width: 345px;
     height: 68px;
     left: 2px;
     background: #ffffff;
 }
-.history-img img{
+
+.history-img img {
     position: absolute;
     width: 36px;
     height: 36px;
     top: 12px;
 }
-.history-detail-main{
+
+.history-detail-main {
     display: inline-block;
     position: relative;
     left: 43px;
     top: 8px;
 }
-.detail-main-upper{
+
+.detail-main-upper {
     display: flex;
 }
-.detail-main-upper h1{
+
+.detail-main-upper h1 {
     position: static;
     height: 22px;
     left: 0px;
@@ -176,14 +203,15 @@
     font-size: 16px;
     line-height: 22px;
     text-transform: lowercase;
-    color: #2F343D;
+    color: #2f343d;
     flex: none;
     order: 0;
     align-self: center;
     margin: 4px 0px;
     margin-right: 4px;
 }
-.detail-main-upper p{
+
+.detail-main-upper p {
     position: static;
     height: 16px;
     top: 6px;
@@ -192,14 +220,14 @@
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
-    color: #9EA2A8;
+    color: #9ea2a8;
     flex: none;
     order: 1;
     align-self: flex-end;
     margin: 4px 0px;
-    
 }
-.detail-main-lower p{
+
+.detail-main-lower p {
     position: absolute;
     width: 625px;
     height: 20px;
@@ -209,19 +237,22 @@
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
-    color: #2F343D;
+    color: #2f343d;
 }
-.chatHistory{
+
+.chatHistory {
     position: relative;
     left: 24px;
     width: 345px;
     top: 27px;
 }
-.chatHistory ul li{
+
+.chatHistory ul li {
     display: block;
 }
-.msgcount p{
-    background: #CBCED1;
+
+.msgcount p {
+    background: #cbced1;
     border-radius: 2px;
     width: 100%;
     text-align: center;
@@ -229,7 +260,8 @@
     font-size: 10px;
     margin: 10px 0 20px;
 }
-.msgcount p span{
+
+.msgcount p span {
     width: 65px;
     height: 12px;
     right: 156px;
@@ -238,78 +270,91 @@
     font-style: normal;
     font-weight: 600;
     text-align: center;
-    color: #6C727A;
+    color: #6c727a;
     background: white;
     padding-left: 8px;
     padding-right: 8px;
 }
-.noresult{
+
+.noresult {
     font-weight: 700;
     position: relative;
     top: 30px;
     left: 6%;
 }
-#searchInput{
+
+#searchInput {
     font-family: Inter;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
-    color:#9EA2A8;
+    color: #9ea2a8;
     position: absolute;
-    left:16px;
-    right:46px;
-    top:10px;
-    bottom:10px;
-    border:none;
-    width:92%;
+    left: 16px;
+    right: 46px;
+    top: 10px;
+    bottom: 10px;
+    border: none;
+    width: 92%;
 }
 
-.right-addon .glyphicon{
+.right-addon .glyphicon {
     right: 0px;
 }
-.right-addon input{
+
+.right-addon input {
     padding-right: 30px;
 }
-.vistior-history-block{
+
+.vistior-history-block {
     margin-top: 10%;
 }
-.vistior-history-block ul li{
-    border-bottom: 2px solid #F2F3F5;
+
+.vistior-history-block ul li {
+    border-bottom: 2px solid #f2f3f5;
     display: block;
     padding-bottom: 5%;
     cursor: pointer;
     width: 390px; 
     background-color: #ffffff;
 }
-.vistior-history-block ul a{
+
+.vistior-history-block ul a {
     text-decoration: none;
     color: black;
 }
-.vistior-history-block ul li:hover{
+
+.vistior-history-block ul li:hover {
     background-color: #f2f3f5;
 }
-.history-div{
+
+.history-div {
     display: flex;
 }
-.visitor-img{
-    display:contents;
+
+.visitor-img {
+    display: contents;
 }
-.visitor-img img{
+
+.visitor-img img {
     position: relative;
     width: 36px;
     height: 36px;
-    left:24px;
-    top:16px;
-    border-radius:1.75px;
+    left: 24px;
+    top: 16px;
+    border-radius: 1.75px;
 }
-.visitor-history-details{
+
+.visitor-history-details {
     margin-left: 2%;
 }
-.visitor-details{
+
+.visitor-details {
     display: -webkit-inline-box;
 }
-.visitor-details h1{
+
+.visitor-details h1 {
     position: relative;
     height: 22px;
     left: 25px;
@@ -320,15 +365,16 @@
     font-size: 16px;
     line-height: 22px;
     text-transform: lowercase;
-    color: #2F343D;
+    color: #2f343d;
 }
-.contextual-bar__content{
+
+.contextual-bar__content {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
-.visitor-details p{
+
+.visitor-details p {
     position: relative;
-    /*width: 108px;*/
     height: 16px;
     left: 29px;
     top: 21px;
@@ -337,13 +383,15 @@
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
-    color: #9EA2A8;
+    color: #9ea2a8;
 }
-.total-messages{
+
+.total-messages {
     font-size: 0.8rem;
     color: grey;
 }
-.total-messages p{
+
+.total-messages p {
     position: relative;
     height: 16px;
     left: 25px;
@@ -354,46 +402,52 @@
     font-weight: bold;
     font-size: 12px;
     line-height: 16px;
-    color:#9EA2A8;
+    color: #9ea2a8;
 }
-.agent-comment{
+
+.agent-comment {
     margin-top: 3%;
     font-size: 0.8rem;
 }
-.comment-heading{
-position: relative;
-height: 16px;
-left:25px;
-right:84px;
-top:15px;
-font-family: Inter;
-font-style: normal;
-font-weight: 600;
-font-size: 10px;
-line-height: 12px;
-color:#6C727A;
+
+.comment-heading {
+    position: relative;
+    height: 16px;
+    left: 25px;
+    right: 84px;
+    top: 15px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 12px;
+    color: #6c727a;
 }
-.comment-text{
+
+.comment-text {
     position: relative;
     width: 268px;
-    left:25px;
-    right:24px;
-    top:15px;
+    left: 25px;
+    right: 24px;
+    top: 15px;
     font-family: Inter;
     font-style: italic;
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
-    color:#9EA2A8;
+    color: #9ea2a8;
 }
-.open{
+
+.open {
     padding-left: 4% !important;
 }
-.loding{
+
+.loding {
     text-align: center;
     font-family: Inter;
 }
-.Contextualheading{
+
+.Contextualheading  {
     position: absolute;
     width: 249px;
     height: 22px;
