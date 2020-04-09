@@ -10,7 +10,7 @@
             {{#if isAllChat}}
 			<div class="vistior-history-block">
         
-				<ul>
+				<ul id='allist'>
 					{{#each previousChats}}
 					<li class='list-chat' id='{{_id}}' aria='{{v.token}}'>
 					
@@ -50,7 +50,7 @@
 					<p><span>{{len}} messages</span></p>
 					
 				</div>
-				<ul>
+				<ul class='chatHistoryul'>
 
 					{{#each historyResult}}
 					{{#unless t}}
@@ -99,7 +99,7 @@
 			{{else}}
 			<div class='visitor-history-block'>
 				{{#if isfound }}
-				<ul class='searchresults'>
+				<ul class='searchresults' id='searchresul'>
 					
 					{{#each searchResults}} 
 					
@@ -111,7 +111,7 @@
 							<div class="history-detail-main">
 								<div class="detail-main-upper">
 									<h1>{{u.name}}</h1>
-									<p>{{ts}}</p>
+									<p>{{time}}</p>
 								</div>
 								<div class="detail-main-lower">
 									<p>{{msg}}</p>

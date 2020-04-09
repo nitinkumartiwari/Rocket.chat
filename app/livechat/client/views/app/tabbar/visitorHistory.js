@@ -37,7 +37,7 @@ Template.allChatHistory.helpers({
 	},
 	searchResults(){
 		// will return search result
-	
+		var r = Session.get('searchResult');
 		return 	Template.instance().searchResult.get();
 	},
 	
@@ -113,6 +113,7 @@ Template.allChatHistory.onCreated(function() {
 		this.history.set(this.history.get().concat(history));
 		// this will load all the chat history chat messages
 		allHistoryChat = [];
+		var limit = 100;
 		let count = this.history.get();
 		if(allHistoryChat.length>0){
 			return
@@ -121,17 +122,19 @@ Template.allChatHistory.onCreated(function() {
 			let id = count[i]._id;
 			let token = count[i].v.token;
 			setTimeout(async function(){
-			const historyResult  =  await APIClient.v1.get(`livechat/messages.history/${ id }?token=${token}`);
+			const historyResult  =  await APIClient.v1.get(`livechat/messages.history/${ id }?token=${token}&limit=${limit}`);
 			let count2 = historyResult.messages;
-			for(j=0; j <count2.length; j++){
-				
+			
+			for(j=0; j<count2.length; j++){
+
 					allHistoryChat.push(count2[j]);
 				
-				
 			}
+			
 		},1000)
 			
 		}
+		
 	
 	});	
 });
@@ -147,26 +150,35 @@ Template.allChatHistory.events({
 		}
 	}, 200),
 	'keyup #searchInput': async function(event,template){ 
+		
+		searchResults = [];
 		let text = event.target.value;
 		template.isChatClicked.set(false);
 		Session.set('found',false);
-	
 		if(event.target.value == ''){
 			template.isAllChat.set(true);
 		}else{
 			template.isAllChat.set(false);
 			Template.instance().searchResult = new ReactiveVar([]);
-			searchResults = [];
-
+			
 			for(var i=0; i<allHistoryChat.length;i++){
 				if(allHistoryChat[i].msg == text){ // check search input matches with any msg
 					Session.set('found',true);
+					var d = Date.parse(allHistoryChat[i].ts);
+					var D = new Date();
+					D.setTime(d);
+					var newTs = D.toTimeString();
+				
+					var time = getTime(newTs);
+					allHistoryChat[i].time = time;
 					searchResults.push(allHistoryChat[i]); 
+					Session.set('searchResult',searchResults);
+					template.searchResult.set(searchResults)
 				
 				}
 				
 			}
-			template.searchResult.set(searchResults)
+			
 			if(searchResults.length > 0){
 				Session.set('found',true);
 			
@@ -224,7 +236,7 @@ function getTime(newTs){
 	var min = newTs.slice(3,5);
 	if(hr > 12 && hr < 24){
 		hr = hr-12;
-		return time = `0${hr}:${min} PM`;
+		return time = `${hr}:${min} PM`;
 	}else if(hr == 24){
 		hr = 00;
 		return time = `${hr}:${min} AM`;

@@ -40,25 +40,6 @@ import { isURL } from '../../../../utils/lib/isURL';
 import { mime } from '../../../../utils/lib/mimeTypes';
 export const chatMessages = {};
 
-var finalHistory = [];
-const ITEMS_COUNT = 50;
-const offset = 0;
- async function getHistory(){
-	
-	const { rid } = Template.instance();
-	const { room } = await APIClient.v1.get(`rooms.info?roomId=${rid }`);
-	const { history } = await APIClient.v1.get(`livechat/visitors.chatHistory/room/${ rid }/visitor/${ room.v._id }?count=${ ITEMS_COUNT }&offset=${ offset }`);
-	for(i=0; i<history.length; i++){
-		var id = history[i]._id;
-		var token = history[i].v.token;
-		const historyResult  =  await APIClient.v1.get(`livechat/messages.history/${ id }?token=${token}`);
-		let count2 = historyResult.messages;
-			for(j=0; j <count2.length; j++){
-				finalHistory.push(count2[j]);
-				}
-	}
-	return finalHistory;
-}
 
 const userCanDrop = (_id) => !roomTypes.readOnly(_id, Users.findOne({ _id: Meteor.userId() }, { fields: { username: 1 } }));
 
@@ -325,7 +306,7 @@ Template.room.helpers({
 		const hideMessagesOfType = new Set(settingValues.reduce((array, value) => [...array, ...value === 'mute_unmute' ? ['user-muted', 'user-unmuted'] : [value]], []));
 		const modes = ['', 'cozy', 'compact'];
 		const viewMode = getUserPreference(Meteor.userId(), 'messageViewMode');
-		const promise = getHistory();
+		
 		
 		const query = {
 			rid,
